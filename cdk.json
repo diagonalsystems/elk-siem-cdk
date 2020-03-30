@@ -1,0 +1,3 @@
+{
+  "app": "TS_NODE_FILES=true ./node_modules/.bin/ts-node test/app.ts"
+}

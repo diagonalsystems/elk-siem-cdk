@@ -1,0 +1,7 @@
+# pomerium config
+
+policy:
+  - from: https://kibana.localhost:8080
+    to: http://kibana:5601
+    allowed_groups:
+      - security@company.com

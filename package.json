@@ -1,0 +1,46 @@
+{
+  "name": "@diagonalsystems/elk-siem-cdk",
+  "version": "0.1.0",
+  "description": "elk siem on aws",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diagonalsystems/elk-siem-cdk.git"
+  },
+  "keywords": [
+    "elk"
+  ],
+  "author": "Diagonal Systems Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/diagonalsystems/elk-siem-cdk/issues"
+  },
+  "homepage": "https://github.com/diagonalsystems/elk-siem-cdk#readme",
+  "devDependencies": {
+    "@types/node": "^13.9.5",
+    "@typescript-eslint/eslint-plugin": "^2.25.0",
+    "@typescript-eslint/parser": "^2.25.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "ts-node": "^8.8.1",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-certificatemanager": "^1.31.0",
+    "@aws-cdk/aws-ec2": "^1.31.0",
+    "@aws-cdk/aws-ecs": "^1.31.0",
+    "@aws-cdk/aws-elasticloadbalancingv2": "^1.31.0",
+    "@aws-cdk/aws-iam": "^1.31.0",
+    "@aws-cdk/aws-route53": "^1.31.0",
+    "@aws-cdk/aws-route53-targets": "^1.31.0",
+    "@aws-cdk/aws-secretsmanager": "^1.31.0",
+    "@aws-cdk/core": "^1.31.0",
+    "cdk-constants": "^3.0.3"
+  }
+}

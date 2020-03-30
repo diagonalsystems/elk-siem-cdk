@@ -2,6 +2,29 @@ version: '3.7'
 
 services:
 
+  pomerium:
+    image: pomerium/pomerium:latest
+    volumes:
+      - ./config/pomerium.yml:/pomerium/config.yaml:ro
+      - ./config/pomerium.crt:/pomerium/cert.pem:ro
+      - ./config/pomerium.key:/pomerium/certprivkey.pem:ro
+    ports:
+      - 8080:443
+    environment:
+      - CERTIFICATE_FILE=/pomerium/cert.pem
+      - CERTIFICATE_KEY_FILE=/pomerium/certprivkey.pem
+      - POMERIUM_DEBUG=true
+      - AUTHENTICATE_SERVICE_URL=https://localhost:8080
+      - GRPC_INSECURE=TRUE
+      - COOKIE_SECRET=V2JBZk0zWGtsL29UcFUvWjVDWWQ2UHExNXJ0b2VhcDI=
+      - IDP_PROVIDER=google
+      - IDP_PROVIDER_URL=https://accounts.google.com
+      - IDP_CLIENT_ID=${IDP_CLIENT_ID}
+      - IDP_CLIENT_SECRET=${IDP_CLIENT_SECRET}
+      - IDP_SERVICE_ACCOUNT=${IDP_SERVICE_ACCOUNT}
+    networks:
+      - elk
+
   kibana:
     image: kibana:7.6.1
     networks:
