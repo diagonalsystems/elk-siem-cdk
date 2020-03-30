@@ -1,2 +1,9 @@
-data
 .DS_Store
+node_modules
+cdk.out
+build
+*.log
+data
+.env
+service_account.json
+pomerium.yml
