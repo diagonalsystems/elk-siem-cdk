@@ -1,6 +1,7 @@
 import { Stack } from '@aws-cdk/core';
 import * as ecs from '@aws-cdk/aws-ecs';
 import { Secret } from '@aws-cdk/aws-secretsmanager';
+import { PlacementStrategy } from '@aws-cdk/aws-ecs';
 
 interface ElasticSearchProps {
   cluster: ecs.ICluster;

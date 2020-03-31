@@ -18,6 +18,7 @@ const vpc = new Vpc(vpcStack, 'Vpc', {
 createElkSiem(app, {
   stackProps,
   vpc,
+  url: 'siem.company.com',
 });
 
 app.synth();

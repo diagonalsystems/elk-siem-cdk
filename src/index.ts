@@ -4,6 +4,7 @@ import {
 import { IVpc } from '@aws-cdk/aws-ec2';
 import ecs from './ecs';
 import elasticsearch from './elasticsearch';
+import pomerium from './pomerium';
 
 const DEFAULT_ELK_VERSION = '7.6.1';
 const DEFAULT_CPU = '512';
@@ -13,6 +14,7 @@ const DEFAULT_VOLUME_SIZE = 32;
 interface Props {
   stackProps: StackProps;
   vpc: IVpc;
+  url: string;
   elkVersion?: string;
   cpu?: string;
   memoryMiB?: string;
@@ -23,7 +25,7 @@ interface Props {
 }
 
 export default function createElkSiem(scope: Construct, props: Props): Stack {
-  const { stackProps, vpc } = props;
+  const { stackProps, vpc, url } = props;
   const stack = new Stack(scope, 'ElkSiem', stackProps);
 
   const elkVersion = props.elkVersion || DEFAULT_ELK_VERSION;
@@ -50,6 +52,11 @@ export default function createElkSiem(scope: Construct, props: Props): Stack {
     memoryMiB,
     mountPath,
     desiredCount,
+  });
+
+  pomerium(stack, {
+    cluster,
+    url,
   });
 
   Tag.add(stack, 'Workload', 'ELK-SIEM');
