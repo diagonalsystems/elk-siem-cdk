@@ -5,6 +5,7 @@ import { IVpc } from '@aws-cdk/aws-ec2';
 import ecs from './ecs';
 import elasticsearch from './elasticsearch';
 import pomerium from './pomerium';
+import kibana from './kibana';
 
 const DEFAULT_ELK_VERSION = '7.6.1';
 const DEFAULT_CPU = '512';
@@ -32,8 +33,8 @@ export default function createElkSiem(scope: Construct, props: Props): Stack {
   const cpu = props.cpu || DEFAULT_CPU;
   const memoryMiB = props.memoryMiB || DEFAULT_MEMORY_MIB;
   const volumeSize = props.volumeSize || DEFAULT_VOLUME_SIZE;
-  const desiredCount = props.desiredCount || 1;
-  const minCapacity = props.minCapacity || 1;
+  const desiredCount = props.desiredCount || 0;
+  const minCapacity = props.minCapacity || 0;
   const maxCapacity = props.maxCapacity || 1;
   const mountPath = '/opt/es';
 
@@ -57,6 +58,11 @@ export default function createElkSiem(scope: Construct, props: Props): Stack {
   pomerium(stack, {
     cluster,
     url,
+  });
+
+  kibana(stack, {
+    cluster,
+    elkVersion,
   });
 
   Tag.add(stack, 'Workload', 'ELK-SIEM');

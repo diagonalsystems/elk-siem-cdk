@@ -7,7 +7,9 @@ interface PomeriumProps {
   url: string;
 }
 
-export default function createPomerium(stack: Stack, props: PomeriumProps): { pomeriumService: ecs.FargateService} {
+interface Pomerium { pomeriumService: ecs.FargateService }
+
+export default function createPomerium(stack: Stack, props: PomeriumProps): Pomerium {
   const {
     cluster,
     url,
@@ -28,7 +30,7 @@ export default function createPomerium(stack: Stack, props: PomeriumProps): { po
   const idpServiceAccount = new Secret(stack, 'ElkSiem/IdpServiceAccount');
   const cookieSecret = new Secret(stack, 'ElkSiem/CookieSecret');
 
-  new ecs.ContainerDefinition(stack, 'PomeriumContainerDefinition', {
+  const container = new ecs.ContainerDefinition(stack, 'PomeriumContainerDefinition', {
     taskDefinition,
     memoryReservationMiB: Number(memoryMiB),
     image: ecs.EcrImage.fromRegistry('pomerium/pomerium:latest'),
@@ -51,7 +53,7 @@ export default function createPomerium(stack: Stack, props: PomeriumProps): { po
   const pomeriumService = new ecs.FargateService(stack, 'PomeriumService', {
     cluster,
     taskDefinition,
-    desiredCount: 1,
+    desiredCount: 0,
   });
 
   return {

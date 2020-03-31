@@ -1,7 +1,6 @@
 import { Stack } from '@aws-cdk/core';
 import * as ecs from '@aws-cdk/aws-ecs';
 import { Secret } from '@aws-cdk/aws-secretsmanager';
-import { PlacementStrategy } from '@aws-cdk/aws-ecs';
 
 interface ElasticSearchProps {
   cluster: ecs.ICluster;
@@ -57,7 +56,7 @@ export default function createElasticSearch(stack: Stack, props: ElasticSearchPr
 
   new ecs.Ec2Service(stack, 'ElasticSearchService', {
     cluster,
-    desiredCount,
+    desiredCount: 0,
     taskDefinition: esTaskDefinition,
   });
 
