@@ -7,7 +7,7 @@ interface PomeriumProps {
   url: string;
 }
 
-export default function createPomerium(stack: Stack, props: PomeriumProps): Stack {
+export default function createPomerium(stack: Stack, props: PomeriumProps): { pomeriumService: ecs.FargateService} {
   const {
     cluster,
     url,
@@ -48,11 +48,13 @@ export default function createPomerium(stack: Stack, props: PomeriumProps): Stac
     },
   });
 
-  new ecs.Ec2Service(stack, 'PomeriumService', {
+  const pomeriumService = new ecs.FargateService(stack, 'PomeriumService', {
     cluster,
     taskDefinition,
     desiredCount: 1,
   });
 
-  return stack;
+  return {
+    pomeriumService,
+  };
 }
