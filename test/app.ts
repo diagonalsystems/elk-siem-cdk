@@ -1,5 +1,6 @@
 import { App, Stack } from '@aws-cdk/core';
 import { Vpc } from '@aws-cdk/aws-ec2';
+import { HostedZone } from '@aws-cdk/aws-route53';
 import createElkSiem from '../src';
 
 const stackProps = {
@@ -10,15 +11,15 @@ const stackProps = {
 };
 
 const app = new App();
-const vpcStack = new Stack(app, 'Vpc', stackProps);
-const vpc = new Vpc(vpcStack, 'Vpc', {
-  maxAzs: 1,
-});
+
+const stack = new Stack(app, 'ElkSiemTest', stackProps);
+const vpc = new Vpc(stack, 'Vpc', { maxAzs: 1 });
+const zone = new HostedZone(stack, 'Zone', { zoneName: 'example.com' });
 
 createElkSiem(app, {
   stackProps,
   vpc,
-  url: 'siem.company.com',
+  zone,
 });
 
 app.synth();
