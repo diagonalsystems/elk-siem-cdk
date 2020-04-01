@@ -56,7 +56,7 @@ export default function createElasticSearch(stack: Stack, props: ElasticSearchPr
 
   new ecs.Ec2Service(stack, 'ElasticSearchService', {
     cluster,
-    desiredCount: 0,
+    desiredCount,
     taskDefinition: esTaskDefinition,
   });
 

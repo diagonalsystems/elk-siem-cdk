@@ -2,6 +2,7 @@ import {
   Tag, Construct, Stack, StackProps,
 } from '@aws-cdk/core';
 import { IVpc } from '@aws-cdk/aws-ec2';
+import { IHostedZone } from '@aws-cdk/aws-route53';
 import ecs from './ecs';
 import elasticsearch from './elasticsearch';
 import pomerium from './pomerium';
@@ -15,7 +16,8 @@ const DEFAULT_VOLUME_SIZE = 32;
 interface Props {
   stackProps: StackProps;
   vpc: IVpc;
-  url: string;
+  zone: IHostedZone;
+  subdomain?: string;
   elkVersion?: string;
   cpu?: string;
   memoryMiB?: string;
@@ -26,7 +28,9 @@ interface Props {
 }
 
 export default function createElkSiem(scope: Construct, props: Props): Stack {
-  const { stackProps, vpc, url } = props;
+  const {
+    stackProps, vpc, zone, subdomain,
+  } = props;
   const stack = new Stack(scope, 'ElkSiem', stackProps);
 
   const elkVersion = props.elkVersion || DEFAULT_ELK_VERSION;
@@ -56,8 +60,10 @@ export default function createElkSiem(scope: Construct, props: Props): Stack {
   });
 
   pomerium(stack, {
+    vpc,
     cluster,
-    url,
+    zone,
+    subdomain,
   });
 
   kibana(stack, {
